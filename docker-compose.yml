@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: employee_database
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgres_data
+    
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: employee_rabbitmq
+    restart: always
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    env_file:
+      - .env
+
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+  redis:
+    image: redis:7.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/var/lib/redis
+volumes:
+   postgres_data:
+   rabbitmq:
+   redis:
